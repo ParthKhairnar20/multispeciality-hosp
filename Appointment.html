@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Appointment Form</title>
+  <style>
+    /* General Styling */
+    body {
+      background-color: #0f61b4;
+      font-family: Arial, sans-serif;
+      color: #ecf0f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 3rem;
+      color: #f39c12;
+    }
+
+    /* Form Container */
+    .form-container {
+      background-color: #34495e;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 700px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Input Fields Styling */
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #7f8c8d;
+      background-color: #ecf0f1;
+      font-size: 1rem;
+      color: #2c3e50;
+    }
+
+    input:focus, select:focus, button:focus {
+      outline: none;
+      border-color: #f39c12;
+    }
+
+    /* Hover Effects */
+    button:hover {
+      background-color: #f39c12;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Calendar and Time Styling */
+    .calendar, .time-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .calendar input {
+      cursor: pointer;
+    }
+
+    /* Error Message Styling */
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    /* Animation for the form */
+    .form-container {
+      animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Hospital Appointment Form</h1>
+  <div class="form-container">
+    <form id="appointmentForm">
+      <!-- Service Selection -->
+      <label for="service">Choose a Service:</label>
+      <select id="service" required>
+        <option value="">-- Select Service --</option>
+        <option value="General Consultation">General Consultation</option>
+        <option value="Cardiology">Cardiology</option>
+        <option value="Dermatology">Dermatology</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Orthopedics">Orthopedics</option>
+        <option value="Dentistry">Dentistry</option>
+        <option value="Neurology">Neurology</option>
+        <option value="Psychiatry">Psychiatry</option>
+        <option value="Gynecology">Gynecology</option>
+        <option value="ENT">ENT</option>
+        <option value="Urology">Urology</option>
+        <option value="Endocrinology">Endocrinology</option>
+        <option value="Oncology">Oncology</option>
+        <option value="Gastroenterology">Gastroenterology</option>
+        <option value="Pulmonology">Pulmonology</option>
+        <option value="Rheumatology">Rheumatology</option>
+        <option value="Nephrology">Nephrology</option>
+      </select>
+
+      <!-- Doctor Selection -->
+      <label for="doctor">Choose a Doctor:</label>
+      <select id="doctor" required>
+        <option value="">-- Select Doctor --</option>
+        <option value="Dr. Smith">Dr. Smith (Cardiology)</option>
+        <option value="Dr. Johnson">Dr. Johnson (Dermatology)</option>
+        <option value="Dr. Lee">Dr. Lee (Pediatrics)</option>
+        <option value="Dr. Brown">Dr. Brown (Orthopedics)</option>
+        <option value="Dr. Davis">Dr. Davis (Dentistry)</option>
+        <option value="Dr. Wilson">Dr. Wilson (Neurology)</option>
+        <option value="Dr. Moore">Dr. Moore (Psychiatry)</option>
+        <option value="Dr. Taylor">Dr. Taylor (Gynecology)</option>
+        <option value="Dr. Harris">Dr. Harris (ENT)</option>
+      </select>
+
+      <!-- Patient Name -->
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" placeholder="Enter your full name" required />
+
+      <!-- Patient Email -->
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+
+      <!-- Date Selection -->
+      <div class="calendar">
+        <label for="date">Choose an Appointment Date:</label>
+        <input type="date" id="date" required />
+      </div>
+
+      <!-- Time Selection -->
+      <div class="time-section">
+        <label for="time">Choose Time (AM/PM):</label>
+        <select id="time" required>
+          <option value="">-- Select Time --</option>
+          <option value="9:00 AM">9:00 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <option value="1:00 PM">1:00 PM</option>
+          <option value="2:00 PM">2:00 PM</option>
+          <option value="3:00 PM">3:00 PM</option>
+          <option value="4:00 PM">4:00 PM</option>
+        </select>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error" id="errorMessage"></div>
+
+      <!-- Appointment Button -->
+      <button type="submit">Make Appointment</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Retrieve form data
+      const service = document.getElementById('service').value;
+      const doctor = document.getElementById('doctor').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+
+      // Simple validation
+      if (!service || !doctor || !name || !email || !date || !time) {
+        document.getElementById('errorMessage').textContent = "All fields are required.";
+        return;
+      }
+
+      // Check doctor availability (Placeholder logic)
+      const availableDoctors = ["Dr. Smith", "Dr. Johnson", "Dr. Brown", "Dr. Taylor"]; // Example available doctors
+      if (!availableDoctors.includes(doctor)) {
+        document.getElementById('errorMessage').textContent = `Sorry, ${doctor} is not available. Please choose another doctor.`;
+        return;
+      }
+
+      // Simulate email sending and appointment confirmation (Placeholder)
+      alert(`Appointment successfully booked for ${name} on ${date} at ${time} with ${doctor}. A confirmation email will be sent to ${email}.`);
+      
+      // Reset form
+      document.getElementById('appointmentForm').reset();
+    });
+  </script>
+</body>
+</html>
